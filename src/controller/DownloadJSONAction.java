@@ -2,7 +2,7 @@ package controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class DownloadJSONAction {
+public class DownloadJSONAction extends Action {
 	public DownloadJSONAction() {
 		
 	}
@@ -12,7 +12,7 @@ public class DownloadJSONAction {
 	public String perform(HttpServletRequest request) {
 		
 		// link to download file? 
-		return "JSONFile";
+		return "jsonFile";
 	}
 
 }

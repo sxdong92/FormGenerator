@@ -13,7 +13,11 @@ public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	public void init() throws ServletException {
-		Action.add(new HomePageAction());
+		Action.add(new FormAction());
+		Action.add(new DownloadHTMLAction());
+		Action.add(new DownloadJSONAction());
+		Action.add(new GenerateNoticeAction());
+		Action.add(new UploadJSONAction());
 	}
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,12 +38,11 @@ public class Controller extends HttpServlet {
     private String performTheAction(HttpServletRequest request) {
         HttpSession session     = request.getSession(true);
         String      servletPath = request.getServletPath();
-
-        String action = getActionName(servletPath);
+        String      action = getActionName(servletPath);
         
-        if (action.equals("welcome")) {
+        if (action.equals("welcome.do")) {
         	// User is logged in, but at the root of our web app
-        	return Action.perform("login.do",request);
+        	return "homepage.jsp";
         }
         
       	// Let the logged in user run his chosen action
@@ -71,6 +74,12 @@ public class Controller extends HttpServlet {
     	
     	if (nextPage.endsWith(".html")) {
 	   		RequestDispatcher d = request.getRequestDispatcher("WEB-INF/" + nextPage);
+	   		d.forward(request,response);
+	   		return;
+    	}
+    	
+    	if (nextPage.equals("htmlFile") || nextPage.equals("jsonFile")) {
+	   		RequestDispatcher d = request.getRequestDispatcher(nextPage);
 	   		d.forward(request,response);
 	   		return;
     	}

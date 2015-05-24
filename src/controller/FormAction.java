@@ -2,8 +2,8 @@ package controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class HomePageAction extends Action {
-	public HomePageAction() {
+public class FormAction extends Action {
+	public FormAction() {
 		
 	}
 	
@@ -11,6 +11,6 @@ public class HomePageAction extends Action {
 	
 	public String perform(HttpServletRequest request) {
 		
-		return "homepage.jsp";
+		return "download.jsp";
 	}
 }
