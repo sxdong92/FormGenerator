@@ -15,6 +15,8 @@ public class FormAction extends Action {
 		// if action == "new a form", jump to form.jsp
 		// if action == "upload", read the file and jump to form.jsp
 		
+		
+		
 		return "form.jsp";
 	}
 }
