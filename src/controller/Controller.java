@@ -19,7 +19,6 @@ public class Controller extends HttpServlet {
 		Action.add(new DownloadHTMLAction());
 		Action.add(new DownloadJSONAction());
 		Action.add(new GenerateNoticeAction());
-		Action.add(new UploadJSONAction());
 	}
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
