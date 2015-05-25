@@ -7,10 +7,10 @@ public class FormAction extends Action {
 		
 	}
 	
-	public String getName() { return "homepage.do"; }
+	public String getName() { return "form.do"; }
 	
 	public String perform(HttpServletRequest request) {
 		
-		return "download.jsp";
+		return "form.jsp";
 	}
 }
