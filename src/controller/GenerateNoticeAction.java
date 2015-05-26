@@ -19,8 +19,11 @@ public class GenerateNoticeAction extends Action {
 		Notice notice = (Notice) session.getAttribute("notice");
 		if(notice == null) notice = new Notice();
 		
+		notice.institutionName = request.getParameter("name");
 		
 		
+		
+		session.setAttribute("notice", notice);
 		return "notice.jsp";
 	}
 
