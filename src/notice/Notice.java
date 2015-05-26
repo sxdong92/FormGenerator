@@ -3,6 +3,7 @@ package notice;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import com.cedarsoftware.util.io.JsonReader;
@@ -81,8 +82,15 @@ public class Notice {
 	}
 	
 	@SuppressWarnings("resource")
-	public Notice readFromJSON (File file) throws FileNotFoundException {
-		JsonReader jr = new JsonReader(new FileInputStream(file));
+	public static Notice readFromJSON (InputStream inputStream) throws FileNotFoundException {
+		JsonReader jr = new JsonReader(inputStream);
 		return (Notice) jr.readObject();
+	}
+	
+	public static void main(String[] args) {
+		Notice notice = new Notice();
+		notice.institutionName = "HAHAHA";
+		notice.lastRevDate = "BBBB";
+		System.out.println(notice.writeToJSON());
 	}
 }
