@@ -783,6 +783,8 @@
 	</div>
 	<div align="center">
 		<h4>Download JSON Backup File</h4>
+		<button onclick="alert(${jsonFile})">Show</button>
+		<button onclick="downloadFile('notice.json', 'test')">Download JSON File</button>
 		<form action="downloadJson.do" method="post">
 			<input type="submit" class="btn btn-primary" name="downloadJson" value="Download File"/>
 		</form>
@@ -791,7 +793,17 @@
 
 </div>
 
-
+<script>
+function downloadFile(fileName, content){
+    var aLink = document.createElement('a');
+    var blob = new Blob([content]);
+    var evt = document.createEvent("HTMLEvents");
+    evt.initEvent("click", false, false);
+    aLink.download = fileName;
+    aLink.href = URL.createObjectURL(blob);
+    aLink.dispatchEvent(evt);
+}
+</script>
 
 
 
@@ -1122,8 +1134,8 @@
 					function() {
 <%Boolean uploadFile = false;
 			String json = "";
-			if (session.getAttribute("notice") != null) {
-				json = "'" + (String) session.getAttribute("notice") + "'";
+			if (session.getAttribute("jsonFile") != null) {
+				json = "'" + (String) session.getAttribute("jsonFile") + "'";
 				uploadFile = true;
 			}
 			if (uploadFile) {%>

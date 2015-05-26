@@ -90,7 +90,7 @@
 			<br> <br> <br>
 			<h3 style="margin-top: 30px">Have Back Up Forms? Resume From Backup File</h3>
 			<h4 style="color: red">${message}</h4>
-			<form action="form.do" method="post" enctype="multipart/form-data">
+			<form action="form.do" method="POST" enctype="multipart/form-data">
 				<table>
 					<tr>
 						<td>
@@ -111,7 +111,7 @@
 	<br>
 	<br>
 	<br>
-
+	
 	<div style="margin: 50px">
 		<br>
 	<br>
