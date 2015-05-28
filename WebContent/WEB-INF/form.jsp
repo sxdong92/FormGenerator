@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@page import="notice.Notice"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -19,7 +21,29 @@
 	<script src="js/bootstrap.min.js"></script>
 </head>
 
-<body>
+<c:choose>
+	<c:when test="${ (empty downloadRequired) }">
+		<body>
+	</c:when>
+	<c:when test="${ downloadRequired == false }">
+        <body>
+    </c:when>
+	<c:otherwise>
+		<script>
+			function downloadFile(fileName) {
+				var aLink = document.createElement('a');
+				var blob = new Blob([ '${jsonFile}' ]);
+				var evt = document.createEvent("HTMLEvents");
+				evt.initEvent("click", false, false);
+				aLink.download = fileName;
+				aLink.href = URL.createObjectURL(blob);
+				aLink.dispatchEvent(evt);
+			}
+		</script>
+		<body onload="downloadFile('notice.json')">
+	</c:otherwise>
+</c:choose>
+
 <div class="container">
 
 	<div class="header">
@@ -575,37 +599,11 @@
 			<br />
 			<p align="center">
 				<button type="submit" class="btn btn-primary btn-primary-lg" name="next2" value="true">Generate Form</button>
+				<button type="submit" class="btn btn-primary btn-primary-lg" name="downloadJSON">Save JSON For Later</button>
 			</p>
 		</div>
 	</form>
 </div>
-
-
-	
-		<script>
-			function downloadHTML(fileName) {
-				var aLink = document.createElement('a');
-				var blob = new Blob([ document.documentElement.outerHTML ]);
-				var evt = document.createEvent("HTMLEvents");
-				evt.initEvent("click", false, false);
-				aLink.download = fileName;
-				aLink.href = URL.createObjectURL(blob);
-				aLink.dispatchEvent(evt);
-			}
-
-			function downloadFile(fileName) {
-				var aLink = document.createElement('a');
-				var blob = new Blob([ '${jsonFile}' ]);
-				var evt = document.createEvent("HTMLEvents");
-				evt.initEvent("click", false, false);
-				aLink.download = fileName;
-				aLink.href = URL.createObjectURL(blob);
-				aLink.dispatchEvent(evt);
-			}
-		</script>
-
-
-
 
 <script>
 	function addItemAll(source, target) {
@@ -827,14 +825,6 @@
 		}
 	}
 </script>
-
-
-    <div align="center">
-        <h4>Download File</h4>
-        <button onclick="downloadHTML('notice.html')">Download HTML File</button>
-        <button onclick="downloadFile('notice.json')">Download JSON File</button>
-    </div>
-
 
 		<div class="footer">
 			<p>Team 7 Ionia</p>

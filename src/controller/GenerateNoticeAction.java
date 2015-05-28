@@ -96,7 +96,15 @@ public class GenerateNoticeAction extends Action {
 		notice.otherInfo = request.getParameter("otherInfo");
 		
 		session.setAttribute("notice", notice);
+		session.setAttribute("jsonFile", notice.writeToJSON());
 		System.out.print(notice);
+		
+		
+		
+		if (request.getParameter("downloadJSON") != null) {
+			request.setAttribute("downloadRequired", true);
+			return "form.jsp";
+		}
 		
 		return "notice.jsp";
 	}

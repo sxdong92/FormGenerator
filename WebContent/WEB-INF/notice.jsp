@@ -578,6 +578,39 @@ Our affiliates include companies that utilize the names <b><%=n.institutionName%
       <p>Rev. <%=n.lastRevDate %></p>
     </div>
   </div>
-</body>
+  
+        <script>
+            function downloadHTML(fileName) {
+                var aLink = document.createElement('a');
+                
+                d = document.getElementById('removepart');
+                var backup = d.outerHTML;
+                d.outerHTML = "";
+                var blob = new Blob([ document.documentElement.outerHTML ]);
+                var evt = document.createEvent("HTMLEvents");
+                evt.initEvent("click", false, false);
+                aLink.download = fileName;
+                aLink.href = URL.createObjectURL(blob);
+                aLink.dispatchEvent(evt);
+                window.location.reload(true);
+            }
 
+            function downloadFile(fileName) {
+                var aLink = document.createElement('a');
+                var blob = new Blob([ '${jsonFile}' ]);
+                var evt = document.createEvent("HTMLEvents");
+                evt.initEvent("click", false, false);
+                aLink.download = fileName;
+                aLink.href = URL.createObjectURL(blob);
+                aLink.dispatchEvent(evt);
+            }
+        </script>
+  
+  
+    <div id='removepart' align="center">
+        <h4>Download File</h4>
+        <button onclick="downloadHTML('notice.html')">Download HTML File</button>
+        <button onclick="downloadFile('notice.json')">Download JSON File</button>
+    </div>
+</body>
 </html>
