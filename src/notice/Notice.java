@@ -23,7 +23,7 @@ public class Notice {
 
 	// ================= Facts - Page 1 =================
 	// What?
-	public ArrayList<String> PersonalInfoTypes;
+	public ArrayList<String> PersonalInfoTypes = new ArrayList<String>();
 
 	// Reasons we can share your personal information
 	public boolean[] isShared = new boolean[7]; // 6th valid when hasAffiliates == true
@@ -35,18 +35,17 @@ public class Notice {
 	public String optPhone; // Valid when optByPhone == true
 	public String optWebsite; // Valid when optByPhone == true
 
+	// Mail-in Form
+	public String Address;
+	public String city;
+	public String state;
+	public String zipcode;
+	
 	// Questions
 	public boolean contactByPhone;
 	public boolean contactByWebsite;
 	public String contactPhone; // Valid when providedPhone == true
 	public String contactWebsite; // Valid when providedWebsite == true
-
-	// Mail-in Form
-	public String Address1;
-	public String Address2;
-	public String city;
-	public String state;
-	public String zipcode;
 
 	// ================= Page 2 =================
 	// What we do
@@ -54,7 +53,7 @@ public class Notice {
 	public String protectWay;
 
 	// How does [name] collect my personal information
-	public ArrayList<String> collectWays;
+	public ArrayList<String> collectWays = new ArrayList<String>();
 	public boolean collectFromCompanies;
 	public boolean collectFromOthers;
 
