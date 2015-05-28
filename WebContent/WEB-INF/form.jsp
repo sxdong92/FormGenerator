@@ -579,45 +579,46 @@
 		</div>
 	</form>
 </div>
-<!--  
-	<div align="center">
-		<h4>Download HTML Page</h4>
-		<form action="download.do" method="post">
-			<input type="submit" class="btn btn-primary" name="download" value="Download File"/>
-		</form>
-	</div>
-	<div align="center">
-		<h4>Download JSON Backup File</h4>
-		<button onclick="alert(${jsonFile})">Show</button>
-		<button onclick="downloadFile('notice.json', 'test')">Download JSON File</button>
-		<form action="downloadJson.do" method="post">
-			<input type="submit" class="btn btn-primary" name="downloadJson" value="Download File"/>
-		</form>
-	</div>
--->
 
-</div>
 
-<script>
-function downloadFile(fileName, content){
-    var aLink = document.createElement('a');
-    var blob = new Blob([content]);
-    var evt = document.createEvent("HTMLEvents");
-    evt.initEvent("click", false, false);
-    aLink.download = fileName;
-    aLink.href = URL.createObjectURL(blob);
-    aLink.dispatchEvent(evt);
-}
-</script>
+	
+		<script>
+			function downloadHTML(fileName) {
+				var aLink = document.createElement('a');
+				var blob = new Blob([ document.documentElement.outerHTML ]);
+				var evt = document.createEvent("HTMLEvents");
+				evt.initEvent("click", false, false);
+				aLink.download = fileName;
+				aLink.href = URL.createObjectURL(blob);
+				aLink.dispatchEvent(evt);
+			}
+
+			function downloadFile(fileName) {
+				var aLink = document.createElement('a');
+				var blob = new Blob([ '${jsonFile}' ]);
+				var evt = document.createEvent("HTMLEvents");
+				evt.initEvent("click", false, false);
+				aLink.download = fileName;
+				aLink.href = URL.createObjectURL(blob);
+				aLink.dispatchEvent(evt);
+			}
+		</script>
+
+
+
 
 <script>
-	function showAff(ch) {
-		if (ch.checked) {
-			document.getElementById("aboutAff").style.display = "block";
-		} else {
-			document.getElementById("aboutAff").style.display = "none";
+	function addItemAll(source, target) {
+		for (var x = 0; x < source.length; x++) {
+			var opt = source.options[x];
+			target.options[target.options.length] = new Option(opt.text,
+					opt.value, 0, 0);
+		}
+		for (var x = source.length - 1; x >= 0; x--) {
+			source.options[x] = null;
 		}
 	}
+	
 	function blockAff(ch) {
 		if (ch.checked) {
 			document.getElementById("aboutAff").style.display = "none";
@@ -826,6 +827,13 @@ function downloadFile(fileName, content){
 		}
 	}
 </script>
+
+
+    <div align="center">
+        <h4>Download File</h4>
+        <button onclick="downloadHTML('notice.html')">Download HTML File</button>
+        <button onclick="downloadFile('notice.json')">Download JSON File</button>
+    </div>
 
 
 		<div class="footer">

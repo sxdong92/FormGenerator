@@ -77,7 +77,7 @@ public class Notice {
 	 *****************************************************/
 
 	public String writeToJSON() {
-		return JsonWriter.objectToJson(this);
+		return JsonWriter.objectToJson(this);//.replace("\"", "");
 	}
 	
 	@SuppressWarnings("resource")
