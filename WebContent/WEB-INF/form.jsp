@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@page import="notice.Notice"%>
+<%@page import="java.util.HashSet"%>
+<%@page import="java.util.ArrayList"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html lang="en">
@@ -44,6 +46,11 @@
 	</c:otherwise>
 </c:choose>
 
+<%
+	Notice n = (Notice) session.getAttribute("notice");
+	boolean exist = false;
+	if(n != null) exist = true;
+%>
 <div class="container">
 
 	<div class="header">
@@ -59,7 +66,8 @@
 				<h5 style="color: red;">The field could not be empty</h5>
 			</div>
 			<p>
-				<input type="text" class="form-control" id=institutionName name="institutionName" data-validation="length" data-validation-length="min4">
+				<input type="text" class="form-control" id=institutionName name="institutionName" data-validation="length" data-validation-length="min4" 
+				<% if(exist && n.institutionName != null && !n.institutionName.equals("")) { %> value="<%=n.institutionName%>" <% } %>>
 			</p>
 			<br />
 
@@ -69,9 +77,9 @@
 			</div>
 			<table style="width: 100%">
 				<tr>
-					<td width="15%"><input type="checkbox" name="opt-out" value="1" onclick="showPhone(this)"> Phone</td>
-					<td width="15%"><input type="checkbox" name="opt-out" value="2" onclick="showWebsite(this)"> Website</td>
-					<td width="15%"><input type="checkbox" name="opt-out" value="3" onclick="showMail(this)"> Mail-in</td>
+					<td width="15%"><input type="checkbox" name="opt-out" value="1" onclick="showPhone(this)" <% if(exist && n.optByPhone) { %>checked<% } %>> Phone</td>
+					<td width="15%"><input type="checkbox" name="opt-out" value="2" onclick="showWebsite(this)" <% if(exist && n.optByWebsite) { %>checked<% } %>> Website</td>
+					<td width="15%"><input type="checkbox" name="opt-out" value="3" onclick="showMail(this)" <% if(exist && n.optByMail) { %>checked<% } %>> Mail-in</td>
 				</tr>
 			</table>
 			<br />
@@ -80,7 +88,8 @@
 			<div id="errordate" style="display: none">
 				<h5 style="color: red;">The revision date cannot be empty.</h5>
 			</div>
-				<input class="form-control" type="text" id="startDate" placeholder="Example : October 2012" name="startDate">
+				<input class="form-control" type="text" id="startDate" placeholder="Example : October 2012" name="startDate" 
+				<% if(exist && n.lastRevDate != null && !n.lastRevDate.equals("")) { %> value="<%=n.lastRevDate%>" <% } %>>
 			<br />
 			
 			<h4>Please select Yes if any of the following statements is true: *</h4>
@@ -104,42 +113,50 @@
 			</div>
 			<h4>Please select the types of personal information you collect and share depend on the product or service customers have with you.</h4>
 			<p>Besides SSN, select only 5 more information types</p>
+			<%
+				HashSet<String> map = new HashSet<String>();
+				ArrayList<String> personal = new ArrayList<String>();
+				if(n != null) personal = n.PersonalInfoTypes;
+				for(String s : personal) {
+					map.add(s);
+				}
+			%>
 			<div id="addinput">
 				<table>
 					<tr>
-						<td><input type="checkbox" name="infoCheck" value="Income"> Income</td>
-						<td><input type="checkbox" name="infoCheck" value="Account Balances"> Account Balances</td>
-						<td><input type="checkbox" name="infoCheck" value="Payment History"> Payment History</td>
-						<td><input type="checkbox" name="infoCheck" value="Transaction History"> Transaction History</td>
+						<td><input type="checkbox" name="infoCheck" value="Income" <% if(exist && map.contains("Income")) { %>checked<% } %>> Income</td>
+						<td><input type="checkbox" name="infoCheck" value="Account Balances" <% if(exist && map.contains("Account Balances")) { %>checked<% } %>> Account Balances</td>
+						<td><input type="checkbox" name="infoCheck" value="Payment History" <% if(exist && map.contains("Payment History")) { %>checked<% } %>> Payment History</td>
+						<td><input type="checkbox" name="infoCheck" value="Transaction History" <% if(exist && map.contains("Transaction History")) { %>checked<% } %>> Transaction History</td>
 					</tr>
 					<tr>
-						<td><input type="checkbox" name="infoCheck" value="Transaction or Loss History"> Transaction or Loss History</td>
-						<td><input type="checkbox" name="infoCheck" value="Credit History"> Credit History</td>
-						<td><input type="checkbox" name="infoCheck" value="Credit Scores"> Credit Scores</td>
-						<td><input type="checkbox" name="infoCheck" value="Assets"> Assets</td>
+						<td><input type="checkbox" name="infoCheck" value="Transaction or Loss History" <% if(exist && map.contains("Transaction or Loss History")) { %>checked<% } %>> Transaction or Loss History</td>
+						<td><input type="checkbox" name="infoCheck" value="Credit History" <% if(exist && map.contains("Credit History")) { %>checked<% } %>> Credit History</td>
+						<td><input type="checkbox" name="infoCheck" value="Credit Scores" <% if(exist && map.contains("Credit Scores")) { %>checked<% } %>> Credit Scores</td>
+						<td><input type="checkbox" name="infoCheck" value="Assets" <% if(exist && map.contains("Assets")) { %>checked<% } %>> Assets</td>
 					</tr>
 					<tr>
-						<td><input type="checkbox" name="infoCheck" value="Investment Experience"> Investment Experience</td>
-						<td><input type="checkbox" name="infoCheck" value="Credit Based Insurance Scores"> Credit Based Insurance Scores</td>
-						<td><input type="checkbox" name="infoCheck" value="Insurance Claim History"> Insurance Claim History</td>
-						<td><input type="checkbox" name="infoCheck" value="Account Transactions"> Account Transactions</td>
+						<td><input type="checkbox" name="infoCheck" value="Investment Experience" <% if(exist && map.contains("Investment Experience")) { %>checked<% } %>> Investment Experience</td>
+						<td><input type="checkbox" name="infoCheck" value="Credit Based Insurance Scores" <% if(exist && map.contains("Credit Based Insurance Scores")) { %>checked<% } %>> Credit Based Insurance Scores</td>
+						<td><input type="checkbox" name="infoCheck" value="Insurance Claim History" <% if(exist && map.contains("Insurance Claim History")) { %>checked<% } %>> Insurance Claim History</td>
+						<td><input type="checkbox" name="infoCheck" value="Account Transactions" <% if(exist && map.contains("Account Transactions")) { %>checked<% } %>> Account Transactions</td>
 					</tr>
 					<tr>
-						<td><input type="checkbox" name="infoCheck" value="Risk Tolerance"> Risk Tolerance</td>
-						<td><input type="checkbox" name="infoCheck" value="Medical Related Debts"> Medical Related Debts</td>
-						<td><input type="checkbox" name="infoCheck" value="Credit Card or other debt"> Credit Card or other debt</td>
-						<td><input type="checkbox" name="infoCheck" value="Mortgage Rates and Payments"> Mortgage Rates and Payments</td>
+						<td><input type="checkbox" name="infoCheck" value="Risk Tolerance" <% if(exist && map.contains("Risk Tolerance")) { %>checked<% } %>> Risk Tolerance</td>
+						<td><input type="checkbox" name="infoCheck" value="Medical Related Debts" <% if(exist && map.contains("Medical Related Debts")) { %>checked<% } %>> Medical Related Debts</td>
+						<td><input type="checkbox" name="infoCheck" value="Credit Card or other debt" <% if(exist && map.contains("Credit Card or other debt")) { %>checked<% } %>> Credit Card or other debt</td>
+						<td><input type="checkbox" name="infoCheck" value="Mortgage Rates and Payments" <% if(exist && map.contains("Mortgage Rates and Payments")) { %>checked<% } %>> Mortgage Rates and Payments</td>
 					</tr>
 					<tr>
-						<td><input type="checkbox" name="infoCheck" value="Retirement Assets"> Retirement Assets</td>
-						<td><input type="checkbox" name="infoCheck" value="Checking account information"> Checking account information</td>
-						<td><input type="checkbox" name="infoCheck" value="Employment Information retirement portfolio"> Employment Information retirement portfolio</td>
-						<td><input type="checkbox" name="infoCheck" value="Wire Transfer Instructions"> Wire Transfer Instructions</td>
+						<td><input type="checkbox" name="infoCheck" value="Retirement Assets" <% if(exist && map.contains("Retirement Assets")) { %>checked<% } %>> Retirement Assets</td>
+						<td><input type="checkbox" name="infoCheck" value="Checking account information" <% if(exist && map.contains("Checking account information")) { %>checked<% } %>> Checking account information</td>
+						<td><input type="checkbox" name="infoCheck" value="Employment Information retirement portfolio" <% if(exist && map.contains("Employment Information retirement portfolio")) { %>checked<% } %>> Employment Information retirement portfolio</td>
+						<td><input type="checkbox" name="infoCheck" value="Wire Transfer Instructions" <% if(exist && map.contains("Wire Transfer Instructions")) { %>checked<% } %>> Wire Transfer Instructions</td>
 					</tr>
 					<tr>
-						<td><input type="checkbox" name="infoCheck" value="Medical Information"> Medical Information</td>
-						<td><input type="checkbox" name="infoCheck" value="Overdraft History"> Overdraft History</td>
-						<td><input type="checkbox" name="infoCheck" value="Purchase History"> Purchase History</td>
+						<td><input type="checkbox" name="infoCheck" value="Medical Information" <% if(exist && map.contains("Medical Information")) { %>checked<% } %>> Medical Information</td>
+						<td><input type="checkbox" name="infoCheck" value="Overdraft History" <% if(exist && map.contains("Overdraft History")) { %>checked<% } %>> Overdraft History</td>
+						<td><input type="checkbox" name="infoCheck" value="Purchase History" <% if(exist && map.contains("Purchase History")) { %>checked<% } %>> Purchase History</td>
 						<td></td>
 					</tr>
 				</table>
@@ -251,13 +268,14 @@
 			<div id="error-days" style="display: none">
 				<h5 style="color: red;">The number of days need to be larger than 30</h5>
 			</div>
-			<input type="text" class="form-control" id="sharelimitDays" placeholder="No less than 30 days" name="sharelimitDays">
+			<input type="text" class="form-control" id="sharelimitDays" placeholder="No less than 30 days" name="sharelimitDays"
+			<% if(exist) { %> value="<%=n.sharelimitDays%>" <% } %>>
 		</div>
 		<br />
 		
 		
 		<!-- Opt Methods -->
-		<div class="content-row" id="phoneArea" style="display: none">
+		<div class="content-row" id="phoneArea" <% if(exist && n.optByPhone) { %>style="display: block"<% } else {%>style="display: none"<% } %>>
 			<div class="content-row">
 				<table class="table table-striped" style="text-align: left">
 					<tr>
@@ -268,13 +286,14 @@
 				<div id="errorPhone" style="display: none">
 					<h5 style="color: red;">The field could not be empty</h5>
 				</div>
-				<input type="text" class="form-control" placeholder="Phone number for opt-out" id="phonephone" name="phonephone">
+				<input type="text" class="form-control" placeholder="Phone number for opt-out" id="phonephone" name="phonephone"
+				<% if(exist && n.optPhone != null && !n.optPhone.equals("")) { %> value="<%=n.optPhone%>" <% } %>>
 			</div>
 		</div>
 		<br />
 		
 
-		<div class="content-row" id="websiteArea" style="display: none">
+		<div class="content-row" id="websiteArea" <% if(exist && n.optByWebsite) { %>style="display: block"<% } else {%>style="display: none"<% } %>>
 			<div class="content-row">
 				<table class="table table-striped" style="text-align: left">
 					<tr>
@@ -285,13 +304,14 @@
 				<div id="errorWebsite" style="display: none">
 					<h5 style="color: red;">The field could not be empty</h5>
 				</div>
-				<input type="text" class="form-control" placeholder="Website for opt-out" id="websitewebsite" name="websitewebsite">
+				<input type="text" class="form-control" placeholder="Website for opt-out" id="websitewebsite" name="websitewebsite"
+				<% if(exist && n.optWebsite != null && !n.optWebsite.equals("")) { %> value="<%=n.optWebsite%>" <% } %>>
 			</div>
 			<br />
 		</div>
 		<br />
 		
-		<div class="content-row" id="mailArea" style="display: none">
+		<div class="content-row" id="mailArea" <% if(exist && n.optByMail) { %>style="display: block"<% } else {%>style="display: none"<% } %>>
 			<div class="content-row" id="mailinForm">
 				<table class="table table-striped" style="text-align: left">
 					<tr>
@@ -316,68 +336,71 @@
 				<table style="width: 100%">
 					<tr>
 						<td>Street:</td>
-						<td>&nbsp;&nbsp;<input name="address" type="text" id="address"></td>
+						<td>&nbsp;&nbsp;<input name="address" type="text" id="address"
+						<% if(exist && n.Address != null && !n.Address.equals("")) { %> value="<%=n.Address%>" <% } %>></td>
 						<td>City:</td>
-						<td>&nbsp;&nbsp;<input name="city" type="text" id="city"></td>
+						<td>&nbsp;&nbsp;<input name="city" type="text" id="city" 
+						<% if(exist && n.city != null && !n.city.equals("")) { %> value="<%=n.city%>" <% } %>></td>
 					</tr>
 					<tr>
 						<td>State:</td>
 						<td>&nbsp;&nbsp; <select name="state">
-								<option value="AL">Alabama</option>
-								<option value="AK">Alaska</option>
-								<option value="AZ">Arizona</option>
-								<option value="AR">Arkansas</option>
-								<option value="CA">California</option>
-								<option value="CO">Colorado</option>
-								<option value="CT">Connecticut</option>
-								<option value="DE">Delaware</option>
-								<option value="DC">District Of Columbia</option>
-								<option value="FL">Florida</option>
-								<option value="GA">Georgia</option>
-								<option value="HI">Hawaii</option>
-								<option value="ID">Idaho</option>
-								<option value="IL">Illinois</option>
-								<option value="IN">Indiana</option>
-								<option value="IA">Iowa</option>
-								<option value="KS">Kansas</option>
-								<option value="KY">Kentucky</option>
-								<option value="LA">Louisiana</option>
-								<option value="ME">Maine</option>
-								<option value="MD">Maryland</option>
-								<option value="MA">Massachusetts</option>
-								<option value="MI">Michigan</option>
-								<option value="MN">Minnesota</option>
-								<option value="MS">Mississippi</option>
-								<option value="MO">Missouri</option>
-								<option value="MT">Montana</option>
-								<option value="NE">Nebraska</option>
-								<option value="NV">Nevada</option>
-								<option value="NH">New Hampshire</option>
-								<option value="NJ">New Jersey</option>
-								<option value="NM">New Mexico</option>
-								<option value="NY">New York</option>
-								<option value="NC">North Carolina</option>
-								<option value="ND">North Dakota</option>
-								<option value="OH">Ohio</option>
-								<option value="OK">Oklahoma</option>
-								<option value="OR">Oregon</option>
-								<option value="PA">Pennsylvania</option>
-								<option value="RI">Rhode Island</option>
-								<option value="SC">South Carolina</option>
-								<option value="SD">South Dakota</option>
-								<option value="TN">Tennessee</option>
-								<option value="TX">Texas</option>
-								<option value="UT">Utah</option>
-								<option value="VT">Vermont</option>
-								<option value="VA">Virginia</option>
-								<option value="WA">Washington</option>
-								<option value="WV">West Virginia</option>
-								<option value="WI">Wisconsin</option>
-								<option value="WY">Wyoming</option>
+								<option value="AL" <% if(exist && n.state.equals("AL")) { %>selected<% } %>>Alabama</option>
+								<option value="AK" <% if(exist && n.state.equals("AK")) { %>selected<% } %>>Alaska</option>
+								<option value="AZ" <% if(exist && n.state.equals("AZ")) { %>selected<% } %>>Arizona</option>
+								<option value="AR" <% if(exist && n.state.equals("AR")) { %>selected<% } %>>Arkansas</option>
+								<option value="CA" <% if(exist && n.state.equals("CA")) { %>selected<% } %>>California</option>
+								<option value="CO" <% if(exist && n.state.equals("CO")) { %>selected<% } %>>Colorado</option>
+								<option value="CT" <% if(exist && n.state.equals("CT")) { %>selected<% } %>>Connecticut</option>
+								<option value="DE" <% if(exist && n.state.equals("DE")) { %>selected<% } %>>Delaware</option>
+								<option value="DC" <% if(exist && n.state.equals("DC")) { %>selected<% } %>>District Of Columbia</option>
+								<option value="FL" <% if(exist && n.state.equals("FL")) { %>selected<% } %>>Florida</option>
+								<option value="GA" <% if(exist && n.state.equals("GA")) { %>selected<% } %>>Georgia</option>
+								<option value="HI" <% if(exist && n.state.equals("HI")) { %>selected<% } %>>Hawaii</option>
+								<option value="ID" <% if(exist && n.state.equals("ID")) { %>selected<% } %>>Idaho</option>
+								<option value="IL" <% if(exist && n.state.equals("IL")) { %>selected<% } %>>Illinois</option>
+								<option value="IN" <% if(exist && n.state.equals("IN")) { %>selected<% } %>>Indiana</option>
+								<option value="IA" <% if(exist && n.state.equals("IA")) { %>selected<% } %>>Iowa</option>
+								<option value="KS" <% if(exist && n.state.equals("KS")) { %>selected<% } %>>Kansas</option>
+								<option value="KY" <% if(exist && n.state.equals("KY")) { %>selected<% } %>>Kentucky</option>
+								<option value="LA" <% if(exist && n.state.equals("LA")) { %>selected<% } %>>Louisiana</option>
+								<option value="ME" <% if(exist && n.state.equals("ME")) { %>selected<% } %>>Maine</option>
+								<option value="MD" <% if(exist && n.state.equals("MD")) { %>selected<% } %>>Maryland</option>
+								<option value="MA" <% if(exist && n.state.equals("MA")) { %>selected<% } %>>Massachusetts</option>
+								<option value="MI" <% if(exist && n.state.equals("MI")) { %>selected<% } %>>Michigan</option>
+								<option value="MN" <% if(exist && n.state.equals("MN")) { %>selected<% } %>>Minnesota</option>
+								<option value="MS" <% if(exist && n.state.equals("MS")) { %>selected<% } %>>Mississippi</option>
+								<option value="MO" <% if(exist && n.state.equals("MO")) { %>selected<% } %>>Missouri</option>
+								<option value="MT" <% if(exist && n.state.equals("MT")) { %>selected<% } %>>Montana</option>
+								<option value="NE" <% if(exist && n.state.equals("NE")) { %>selected<% } %>>Nebraska</option>
+								<option value="NV" <% if(exist && n.state.equals("NV")) { %>selected<% } %>>Nevada</option>
+								<option value="NH" <% if(exist && n.state.equals("NH")) { %>selected<% } %>>New Hampshire</option>
+								<option value="NJ" <% if(exist && n.state.equals("NJ")) { %>selected<% } %>>New Jersey</option>
+								<option value="NM" <% if(exist && n.state.equals("NM")) { %>selected<% } %>>New Mexico</option>
+								<option value="NY" <% if(exist && n.state.equals("NY")) { %>selected<% } %>>New York</option>
+								<option value="NC" <% if(exist && n.state.equals("NC")) { %>selected<% } %>>North Carolina</option>
+								<option value="ND" <% if(exist && n.state.equals("ND")) { %>selected<% } %>>North Dakota</option>
+								<option value="OH" <% if(exist && n.state.equals("OH")) { %>selected<% } %>>Ohio</option>
+								<option value="OK" <% if(exist && n.state.equals("OK")) { %>selected<% } %>>Oklahoma</option>
+								<option value="OR" <% if(exist && n.state.equals("OR")) { %>selected<% } %>>Oregon</option>
+								<option value="PA" <% if(exist && n.state.equals("PA")) { %>selected<% } %>>Pennsylvania</option>
+								<option value="RI" <% if(exist && n.state.equals("RI")) { %>selected<% } %>>Rhode Island</option>
+								<option value="SC" <% if(exist && n.state.equals("SC")) { %>selected<% } %>>South Carolina</option>
+								<option value="SD" <% if(exist && n.state.equals("SD")) { %>selected<% } %>>South Dakota</option>
+								<option value="TN" <% if(exist && n.state.equals("TN")) { %>selected<% } %>>Tennessee</option>
+								<option value="TX" <% if(exist && n.state.equals("TX")) { %>selected<% } %>>Texas</option>
+								<option value="UT" <% if(exist && n.state.equals("UT")) { %>selected<% } %>>Utah</option>
+								<option value="VT" <% if(exist && n.state.equals("VT")) { %>selected<% } %>>Vermont</option>
+								<option value="VA" <% if(exist && n.state.equals("VA")) { %>selected<% } %>>Virginia</option>
+								<option value="WA" <% if(exist && n.state.equals("WA")) { %>selected<% } %>>Washington</option>
+								<option value="WV" <% if(exist && n.state.equals("WV")) { %>selected<% } %>>West Virginia</option>
+								<option value="WI" <% if(exist && n.state.equals("WI")) { %>selected<% } %>>Wisconsin</option>
+								<option value="WY" <% if(exist && n.state.equals("WY")) { %>selected<% } %>>Wyoming</option>
 						</select>
 						</td>
 						<td>Zip:</td>
-						<td>&nbsp;&nbsp;<input type="text" name="zipcode" id="zipcode"></td>
+						<td>&nbsp;&nbsp;<input type="text" name="zipcode" id="zipcode"
+						<% if(exist && n.zipcode != null && !n.zipcode.equals("")) { %> value="<%=n.zipcode%>" <% } %>></td>
 					</tr>
 				</table>
 			</div>
@@ -393,12 +416,14 @@
 			</div>
 			<table style="width: 100%">
 				<tr>
-					<td width="15%"><input name="contacts" id="contactByPhone" type="checkbox" value="phone" /> Phone</td>
-					<td><input type="text" class="form-control" placeholder="Phone Number" id="contactPhone" name="contactPhone"></td>
+					<td width="15%"><input name="contacts" id="contactByPhone" type="checkbox" value="phone" <% if(exist && n.contactByPhone) { %>checked<% } %>/> Phone</td>
+					<td><input type="text" class="form-control" placeholder="Phone Number" id="contactPhone" name="contactPhone"
+					<% if(exist && n.contactPhone != null && !n.contactPhone.equals("")) { %> value="<%=n.contactPhone%>" <% } %>></td>
 				</tr>
 				<tr>
-					<td width="15%"><input name="contacts" id="contactByWebsite" type="checkbox" value="website" /> Website</td>
-					<td><input type="text" class="form-control" placeholder="Website Address" id="contactWebsite" name="contactWebsite"></td>
+					<td width="15%"><input name="contacts" id="contactByWebsite" type="checkbox" value="website" <% if(exist && n.contactByWebsite) { %>checked<% } %>/> Website</td>
+					<td><input type="text" class="form-control" placeholder="Website Address" id="contactWebsite" name="contactWebsite"
+					<% if(exist && n.contactWebsite != null && !n.contactWebsite.equals("")) { %> value="<%=n.contactWebsite%>" <% } %>></td>
 				</tr>
 			</table>
 		</div>
@@ -418,10 +443,21 @@
 			</div>
 			<p>
 				<textarea id="protectWay" name="protectWays" class="form-control" rows="5" maxlength="100" cols="10"
-					placeholder="You may only provide additional information pertaining to your safeguards practices following the designated response to this question. Such information may include information about the use of cookies or other measures you use to safeguard personal information. Limited to a maximum of 30 additional words."></textarea>
+					placeholder="You may only provide additional information pertaining to your safeguards practices 
+					following the designated response to this question. Such information may include information about the use of 
+					cookies or other measures you use to safeguard personal information. Limited to a maximum of 
+					30 additional words."><% if(exist && n.protectWay != null && !n.protectWay.equals("")) { %><%=n.protectWay%><% } %></textarea>
 			</p>
 			<br />
 
+			<%
+				HashSet<String> collectMap = new HashSet<String>();
+				ArrayList<String> collects = new ArrayList<String>();
+				if(n != null) collects = n.collectWays;
+				for(String s : collects) {
+					collectMap.add(s);
+				}
+			%>
 			<div class="content-row">
 				<div id="error2" style="display: none">
 					<h5 style="color: red;">The field need to be exactly five methods</h5>
@@ -433,60 +469,60 @@
 				<div id="collectWays" onclick="checkBox()">
 					<table>
 						<tr>
-							<td><input type="checkbox" name="collectWays" value="Open an account"> Open an account</td>
-							<td><input type="checkbox" name="collectWays" value="Deposit money"> Deposit money</td>
-							<td><input type="checkbox" name="collectWays" value="Make deposits or withdrawals from your account"> Make deposits or withdrawals from your account</td>
-							<td><input type="checkbox" name="collectWays" value="Pay your bills"> Pay your bills</td>
+							<td><input type="checkbox" name="collectWays" value="Open an account" <% if(exist && collectMap.contains("Open an account")) { %>checked<% } %>> Open an account</td>
+							<td><input type="checkbox" name="collectWays" value="Deposit money" <% if(exist && collectMap.contains("Deposit money")) { %>checked<% } %>> Deposit money</td>
+							<td><input type="checkbox" name="collectWays" value="Make deposits or withdrawals from your account" <% if(exist && collectMap.contains("Make deposits or withdrawals from your account")) { %>checked<% } %>> Make deposits or withdrawals from your account</td>
+							<td><input type="checkbox" name="collectWays" value="Pay your bills" <% if(exist && collectMap.contains("Pay your bills")) { %>checked<% } %>> Pay your bills</td>
 						</tr>
 						
 						<tr>
-							<td><input type="checkbox" name="collectWays" value="Apply for a loan"> Apply for a loan</td>
-							<td><input type="checkbox" name="collectWays" value="Use your credit or debit card"> Use your credit or debit card</td>
-							<td><input type="checkbox" name="collectWays" value="Seek financial or tax advice"> Seek financial or tax advice</td>
-							<td><input type="checkbox" name="collectWays" value="Seek advice about your investments"> Seek advice about your investments</td>
+							<td><input type="checkbox" name="collectWays" value="Apply for a loan" <% if(exist && collectMap.contains("Apply for a loan")) { %>checked<% } %>> Apply for a loan</td>
+							<td><input type="checkbox" name="collectWays" value="Use your credit or debit card" <% if(exist && collectMap.contains("Use your credit or debit card")) { %>checked<% } %>> Use your credit or debit card</td>
+							<td><input type="checkbox" name="collectWays" value="Seek financial or tax advice" <% if(exist && collectMap.contains("Seek financial or tax advice")) { %>checked<% } %>> Seek financial or tax advice</td>
+							<td><input type="checkbox" name="collectWays" value="Seek advice about your investments" <% if(exist && collectMap.contains("Seek advice about your investments")) { %>checked<% } %>> Seek advice about your investments</td>
 						</tr>
 						
 						<tr>
-							<td><input type="checkbox" name="collectWays" value="Apply for insurance"> Apply for insurance</td>
-							<td><input type="checkbox" name="collectWays" value="Pay insurance premiums"> Pay insurance premiums</td>
-							<td><input type="checkbox" name="collectWays" value="File an insurance claim"> File an insurance claim</td>
-							<td><input type="checkbox" name="collectWays" value="Buy securities from us"> Buy securities from us</td>
+							<td><input type="checkbox" name="collectWays" value="Apply for insurance" <% if(exist && collectMap.contains("Apply for insurance")) { %>checked<% } %>> Apply for insurance</td>
+							<td><input type="checkbox" name="collectWays" value="Pay insurance premiums" <% if(exist && collectMap.contains("Pay insurance premiums")) { %>checked<% } %>> Pay insurance premiums</td>
+							<td><input type="checkbox" name="collectWays" value="File an insurance claim" <% if(exist && collectMap.contains("File an insurance claim")) { %>checked<% } %>> File an insurance claim</td>
+							<td><input type="checkbox" name="collectWays" value="Buy securities from us" <% if(exist && collectMap.contains("Buy securities from us")) { %>checked<% } %>> Buy securities from us</td>
 						</tr>
 						<tr>
-							<td><input type="checkbox" name="collectWays" value="Sell securities to us"> Sell securities to us</td>
-							<td><input type="checkbox" name="collectWays" value="Direct us to buy securities"> Direct us to buy securities</td>
-							<td><input type="checkbox" name="collectWays" value="Direct us to sell your securities"> Direct us to sell your securities</td>
-							<td><input type="checkbox" name="collectWays" value="Enter into an investment advisory contract"> Enter into an investment advisory contract</td>
+							<td><input type="checkbox" name="collectWays" value="Sell securities to us" <% if(exist && collectMap.contains("Sell securities to us")) { %>checked<% } %>> Sell securities to us</td>
+							<td><input type="checkbox" name="collectWays" value="Direct us to buy securities" <% if(exist && collectMap.contains("Direct us to buy securities")) { %>checked<% } %>> Direct us to buy securities</td>
+							<td><input type="checkbox" name="collectWays" value="Direct us to sell your securities" <% if(exist && collectMap.contains("Direct us to sell your securities")) { %>checked<% } %>> Direct us to sell your securities</td>
+							<td><input type="checkbox" name="collectWays" value="Enter into an investment advisory contract" <% if(exist && collectMap.contains("Enter into an investment advisory contract")) { %>checked<% } %>> Enter into an investment advisory contract</td>
 						</tr>
 						<tr>
-							<td><input type="checkbox" name="collectWays" value="Give us your income information"> Give us your income information</td>
-							<td><input type="checkbox" name="collectWays" value="Provide employment information"> Provide employment information</td>
-							<td><input type="checkbox" name="collectWays" value="Give us your employment history"> Give us your employment history</td>
-							<td><input type="checkbox" name="collectWays" value="Tell us about your investment or retirement portfolio"> Tell us about your investment or retirement portfolio</td>
+							<td><input type="checkbox" name="collectWays" value="Give us your income information" <% if(exist && collectMap.contains("Give us your income information")) { %>checked<% } %>> Give us your income information</td>
+							<td><input type="checkbox" name="collectWays" value="Provide employment information" <% if(exist && collectMap.contains("Provide employment information")) { %>checked<% } %>> Provide employment information</td>
+							<td><input type="checkbox" name="collectWays" value="Give us your employment history" <% if(exist && collectMap.contains("Give us your employment history")) { %>checked<% } %>> Give us your employment history</td>
+							<td><input type="checkbox" name="collectWays" value="Tell us about your investment or retirement portfolio" <% if(exist && collectMap.contains("Tell us about your investment or retirement portfolio")) { %>checked<% } %>> Tell us about your investment or retirement portfolio</td>
 						</tr>
 						<tr>
-							<td><input type="checkbox" name="collectWays" value="Tell us about your investment or retirement earnings"> Tell us about your investment or retirement earnings</td>
-							<td><input type="checkbox" name="collectWays" value="Apply for financing"> Apply for financing</td>
-							<td><input type="checkbox" name="collectWays" value="Apply for a lease"> Apply for a lease</td>
-							<td><input type="checkbox" name="collectWays" value="Provide account information"> Provide account information</td>
+							<td><input type="checkbox" name="collectWays" value="Tell us about your investment or retirement earnings" <% if(exist && collectMap.contains("Tell us about your investment or retirement earnings")) { %>checked<% } %>> Tell us about your investment or retirement earnings</td>
+							<td><input type="checkbox" name="collectWays" value="Apply for financing" <% if(exist && collectMap.contains("Apply for financing")) { %>checked<% } %>> Apply for financing</td>
+							<td><input type="checkbox" name="collectWays" value="Apply for a lease" <% if(exist && collectMap.contains("Apply for a lease")) { %>checked<% } %>> Apply for a lease</td>
+							<td><input type="checkbox" name="collectWays" value="Provide account information" <% if(exist && collectMap.contains("Provide account information")) { %>checked<% } %>> Provide account information</td>
 						</tr>
 						<tr>
-							<td><input type="checkbox" name="collectWays" value="Give us your contact information"> Give us your contact information</td>
-							<td><input type="checkbox" name="collectWays" value="Pay us by check"> Pay us by check</td>
-							<td><input type="checkbox" name="collectWays" value="Give us your wage statements"> Give us your wage statements</td>
-							<td><input type="checkbox" name="collectWays" value="Provide your mortgage information"> Provide your mortgage information</td>
-						</tr>
-
-						<tr>
-							<td><input type="checkbox" name="collectWays" value="Make a wire transfer"> Make a wire transfer</td>
-							<td><input type="checkbox" name="collectWays" value="Tell us who receives the money"> Tell us who receives the money</td>
-							<td><input type="checkbox" name="collectWays" value="Tell us where to send the money"> Tell us where to send the money</td>
-							<td><input type="checkbox" name="collectWays" value="Show your government-issued ID"> Show your government-issued ID</td>
+							<td><input type="checkbox" name="collectWays" value="Give us your contact information" <% if(exist && collectMap.contains("Give us your contact information")) { %>checked<% } %>> Give us your contact information</td>
+							<td><input type="checkbox" name="collectWays" value="Pay us by check" <% if(exist && collectMap.contains("Pay us by check")) { %>checked<% } %>> Pay us by check</td>
+							<td><input type="checkbox" name="collectWays" value="Give us your wage statements" <% if(exist && collectMap.contains("Give us your wage statements")) { %>checked<% } %>> Give us your wage statements</td>
+							<td><input type="checkbox" name="collectWays" value="Provide your mortgage information" <% if(exist && collectMap.contains("Provide your mortgage information")) { %>checked<% } %>> Provide your mortgage information</td>
 						</tr>
 
 						<tr>
-							<td><input type="checkbox" name="collectWays" value="Show your driver's license"> Show your driver's license</td>
-							<td><input type="checkbox" name="collectWays" value="Order a commodity futures or option trade"> Order a commodity futures or option trade</td>
+							<td><input type="checkbox" name="collectWays" value="Make a wire transfer" <% if(exist && collectMap.contains("Make a wire transfer")) { %>checked<% } %>> Make a wire transfer</td>
+							<td><input type="checkbox" name="collectWays" value="Tell us who receives the money" <% if(exist && collectMap.contains("Tell us who receives the money")) { %>checked<% } %>> Tell us who receives the money</td>
+							<td><input type="checkbox" name="collectWays" value="Tell us where to send the money" <% if(exist && collectMap.contains("Tell us where to send the money")) { %>checked<% } %>> Tell us where to send the money</td>
+							<td><input type="checkbox" name="collectWays" value="Show your government-issued ID" <% if(exist && collectMap.contains("Show your government-issued ID")) { %>checked<% } %>> Show your government-issued ID</td>
+						</tr>
+
+						<tr>
+							<td><input type="checkbox" name="collectWays" value="Show your driver's license" <% if(exist && collectMap.contains("Show your driver's license")) { %>checked<% } %>> Show your driver's license</td>
+							<td><input type="checkbox" name="collectWays" value="Order a commodity futures or option trade" <% if(exist && collectMap.contains("Order a commodity futures or option trade")) { %>checked<% } %>> Order a commodity futures or option trade</td>
 							<td></td>
 							<td></td>
 						</tr>
@@ -540,7 +576,7 @@
 				<h5 style="color: red;">This field should not be empty.</h5>
 			</div>
 			<p>
-				<textarea id="law" name="law" class="form-control" rows="3"></textarea>
+				<textarea id="law" name="law" class="form-control" rows="3"><% if(exist && n.law != null && !n.law.equals("")) { %><%=n.law%><% } %></textarea>
 			</p>
 		</div>
 		<br />
@@ -568,15 +604,15 @@
 			<div id="div1">
 				<label>Financial companies:</label>
 				<p>
-					<textarea id="affiliates" name="affiliates" id="affiliates" class="form-control" rows="4"></textarea>
+					<textarea id="affiliates" name="affiliates" id="affiliates" class="form-control" rows="4"><% if(exist && n.affiliates != null && !n.affiliates.equals("")) { %><%=n.affiliates%><% } %></textarea>
 				</p>
 				<label>Nonfinancial companies:</label>
 				<p>
-					<textarea id="nonaffiliates" name="nonaffiliates" id="nonaffiliates" class="form-control" rows="4"></textarea>
+					<textarea id="nonaffiliates" name="nonaffiliates" id="nonaffiliates" class="form-control" rows="4"><% if(exist && n.nonaffiliates != null && !n.nonaffiliates.equals("")) { %><%=n.nonaffiliates%><% } %></textarea>
 				</p>
 				<label>Joint marketing:</label>
 				<p>
-					<textarea id="jointMarketing" name="jointMarketing" id="jointMarketing" class="form-control" rows="4"></textarea>
+					<textarea id="jointMarketing" name="jointMarketing" id="jointMarketing" class="form-control" rows="4"><% if(exist && n.jointMarketing != null && !n.jointMarketing.equals("")) { %><%=n.jointMarketing%><% } %></textarea>
 				</p>
 			</div>
 			<br />
@@ -593,7 +629,7 @@
 				<textarea id="t4" name="otherInfo" class="form-control" id="otherInfo" rows="5"
 					placeholder="Hint: This section is optional. Only the following types of information can appear in this box. 
 					(1) State and/or international privacy law information; and/or 
-					(2) Acknowledgment of receipt form."></textarea>
+					(2) Acknowledgment of receipt form."><% if(exist && n.otherInfo != null && !n.otherInfo.equals("")) { %><%=n.otherInfo%><% } %></textarea>
 			</p>
 		
 			<br />
