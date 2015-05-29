@@ -14,13 +14,19 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<title>FormGenerator - Team 7 Ionia</title>
-
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/main.css" rel="stylesheet">
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="js/bootstrap.min.js"></script>
+	<style>
+	body{
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	}
+	</style>
 </head>
 
 <c:choose>
@@ -61,7 +67,7 @@
 <div class="row marketing">
 	<form id="form1" action="generateNotice.do" onsubmit="return validateForm()" method="post">
 		<div class="content-row">
-			<h4>What is the name of your institution? *</h4>
+			<h4>What is the name of your institution? </h4>
 			<div id="error" style="display: none">
 				<h5 style="color: red;">The field could not be empty</h5>
 			</div>
@@ -71,7 +77,7 @@
 			</p>
 			<br />
 
-			<h4>What opt out communication methods will you offer? (At least one) *</h4>
+			<h4>What opt out communication methods will you offer? (At least one) </h4>
 			<div id="error-opt-out" style="display: none">
 				<h5 style="color: red;">You must select at least one opt-out method.</h5>
 			</div>
@@ -92,7 +98,7 @@
 				<% if(exist && n.lastRevDate != null && !n.lastRevDate.equals("")) { %> value="<%=n.lastRevDate%>" <% } %>>
 			<br />
 			
-			<h4>Please select Yes if any of the following statements is true: *</h4>
+			<h4>Please select NO if any of the following statements is true: </h4>
 			<ul>
 				<li>Your organization does not have affiliates</li>
 				<li>Your affiliates(if you have any) do not use personal information in a manner that requires an opt-out</li>
@@ -187,7 +193,7 @@
 					<tr>
 						<td><strong>Does your organization share information for marketing purposes </strong>
 							&mdash; to such as to offer products and services to customers?</td>
-						<td class="centered-td"><select name="question1" id="question1" onchange="changeQ1()">
+						<td class="centered-td"><select name="question1" id="question1" onchange="changeShare('question1', 'question1b', 'no1', 'share1')">
 								<option value="Yes">Yes</option>
 								<option value="No">No</option></select></td>
 						<td class="centered-td"><select name="question1b" id="question1b" readonly="false">
@@ -196,7 +202,7 @@
 					</tr>
 					<tr>
 						<td><strong> Does your organization share information to do joint marketing with other financial companies?</strong></td>
-						<td class="centered-td"><select name="question2" id="question2" onchange="changeQ2()">
+						<td class="centered-td"><select name="question2" id="question2" onchange="changeShare('question2', 'question2b', 'no2', 'share2')">
 								<option value="Yes">Yes</option>
 								<option value="No">No</option></select></td>
 						<td class="centered-td"><select name="question2b" id="question2b" readonly="false">
@@ -206,7 +212,7 @@
 					<tr>
 						<td><strong>Does your organization share information with affiliates&rsquo; for everyday business purposes? </strong>
 							&mdash; Information about transactions and experiences from customers</td>
-						<td class="centered-td"><select name="question3" id="question3" onchange="changeQ3()">
+						<td class="centered-td"><select name="question3" id="question3" onchange="changeShare('question3', 'question3b', 'no3', 'share3')">
 								<option value="Yes">Yes</option>
 								<option value="No">No</option></select></td>
 						<td class="centered-td"><select name="question3b" id="question3b" readonly="false">
@@ -216,7 +222,7 @@
 					<tr>
 						<td><strong>Does your organization share information for affiliates&rsquo; everyday business purposes? </strong>
 							&mdash; Information such as creditworthiness</td>
-						<td class="centered-td"><select id="question4" name="question4" onchange="changeQ4()">
+						<td class="centered-td"><select id="question4" name="question4" onchange="changeShare('question4', 'question4b', 'no4', 'share4')">
 								<option value="Yes">Yes</option>
 								<option value="No">No</option></select></td>
 						<td class="centered-td"><select id="question4b" name="question4b" readonly="false">
@@ -227,7 +233,7 @@
 						<c:when test="${hasAffiliates}">
 							<tr>
 								<td><strong><span id="optionalQuestion">Will the affiliates market to your customers? </span></strong></td>
-								<td class="centered-td"><select id="question5" name="question5" onchange="changeQ5()">
+								<td class="centered-td"><select id="question5" name="question5" onchange="changeShare('question5', 'question5b', 'no5', 'share5')">
 										<option value="Yes">Yes</option>
 										<option value="No">No</option></select></td>
 								<td class="centered-td"><select id="question5b" name="question5b" readonly="false">
@@ -238,7 +244,7 @@
 						<c:otherwise>
 							<tr style="display: none">
 								<td><strong><span id="optionalQuestion">Will the affiliates market to your customers? </span></strong></td>
-								<td class="centered-td"><select id="question5" name="question5" onchange="changeQ5()">
+								<td class="centered-td"><select id="question5" name="question5" onchange="changeShare('question5', 'question5b', 'no5', 'share5')">
 										<option value="Yes">Yes</option>
 										<option value="No">No</option></select></td>
 								<td class="centered-td"><select id="question5b" name="question5b" readonly="false">
@@ -250,7 +256,7 @@
 
 					<tr>
 						<td><strong>For nonaffiliates to market to you</strong></td>
-						<td class="centered-td"><select id="question6" name="question6" onchange="changeQ6()">
+						<td class="centered-td"><select id="question6" name="question6" onchange="changeShare('question6', 'question6b', 'no6', 'share6')">
 								<option value="Yes">Yes</option>
 								<option value="No">No</option></select></td>
 						<td class="centered-td"><select id="question6b" name="question6b" readonly="false">
@@ -261,6 +267,29 @@
 			</table>
 		</div>
 		<br />
+		
+		
+   <script type="text/javascript">
+    
+    function changeShare(question, questionb, no, share) {
+        var myselect = document.getElementById(question).value;
+
+        if (myselect == "No") {
+            document.getElementById(no).disabled = "true";
+            document.getElementById(share).disabled = "true";
+            document.getElementById(questionb).disabled = true;
+            document.getElementById(questionb).value = "No";
+
+        } else {
+            document.getElementById(share).disabled = false;
+            document.getElementById(share).selected = "true";
+            document.getElementById(no).disabled = false;
+            document.getElementById(questionb).disabled = false;
+            document.getElementById(questionb).value = "Yes";
+        }
+    }
+    </script>
+		
 
 		<div class="content-row">
 			<h4>How many days can you begin sharing new customer's information from the date you sent the notice to the customer?</h4>
@@ -434,7 +463,7 @@
 		<!-- PAGE TWO -->
 		<div class="content-row">
 			<h4>
-				How do you protect personal information? * 
+				How do you protect personal information?  
 				<a href="http://en.wikipedia.org/wiki/Personal_Information_Protection_and_Electronic_Documents_Act"
 					target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a>
 			</h4>
@@ -465,7 +494,7 @@
 				<div id="error-collect" style="display: none">
 					<h5 style="color: red;">You need to select 6 options including SSN so only need to select 5 in total besides SSN</h5>
 				</div>
-				<h4>How do you collect the personal information?* (Exactly five methods)</h4>
+				<h4>How do you collect the personal information? (Exactly five methods)</h4>
 				<div id="collectWays" onclick="checkBox()">
 					<table>
 						<tr>
@@ -582,7 +611,7 @@
 		<br />
 
 		<h4>
-			What happens when a customer limit sharing for an account he hold <br />jointly with someone else? *
+			What happens when a customer limit sharing for an account he hold <br />jointly with someone else? 
 		</h4>
 		<div class="radio">
 			<label> 
@@ -597,7 +626,7 @@
 		<br />
 
 		<div class="content-row" id="aboutAff">
-			<h4>Please list the affiliates you share with below.*</h4>
+			<h4>Please list the affiliates you share with below.</h4>
 			<div id="errorAffs" style="display: none">
 				<h5 style="color: red;">The field could not be empty</h5>
 			</div>
@@ -652,6 +681,14 @@
 			source.options[x] = null;
 		}
 	}
+	
+	function showAff(ch) {
+        if (!ch.checked) {
+            document.getElementById("aboutAff").style.display = "none";
+        } else {
+            document.getElementById("aboutAff").style.display = "block";
+        }
+    }
 	
 	function blockAff(ch) {
 		if (ch.checked) {
@@ -719,6 +756,15 @@
 			document.getElementById("error-opt-out").style.display = "none";
 		}
 		
+	      var date =  document.getElementById("startDate").value;
+	        if(date == null || date == "") {
+	            document.getElementById("errordate").style.display = "block";
+	            return false;
+	        }
+	        else {
+	            document.getElementById("errordate").style.display = "none";
+	        }
+		
 		// validate opt methods detail
 		if(checkboxes[0].checked) {
 			var phonephone = document.getElementById("phonephone").value;
@@ -753,16 +799,6 @@
 			else {
 				document.getElementById("errorMail").style.display = "none";
 			}
-		}
-		
-		
-		var date =  document.getElementById("startDate").value;
-		if(date == null || date == "") {
-			document.getElementById("errordate").style.display = "block";
-			return false;
-		}
-		else {
-			document.getElementById("errordate").style.display = "none";
 		}
 		
 		
@@ -862,9 +898,10 @@
 	}
 </script>
 
-		<div class="footer">
-			<p>Team 7 Ionia</p>
-		</div>
+		<div style="margin: 50px">
+		<br> <br> <br>
+		<p style="color: #00476B; text-align: center">Team 7 Ionia @2015</p>
+	</div>
 	</div>
 </body>
 </html>
