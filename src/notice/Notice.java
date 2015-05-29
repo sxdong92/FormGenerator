@@ -16,6 +16,7 @@ public class Notice {
 	public String lastRevDate;
 
 	public boolean hasAffiliates;
+	public boolean isOptout;
 
 	public boolean optByPhone;
 	public boolean optByWebsite;

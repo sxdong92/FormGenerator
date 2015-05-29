@@ -77,6 +77,20 @@
 			</p>
 			<br />
 
+			<h4>Do you provide opt-out methods?</h4>
+			<div class="radio">
+				<label> 
+					<input type="radio" name="optRadio" id="optRadioYes" value="yes" checked onclick="showOpt(this)"> Yes
+				</label>
+			</div>
+			<div class="radio">
+				<label> 
+					<input type="radio" name="optRadio" id="optRadioNo" value="no" onclick="notShowOpt(this)"> No
+				</label>
+			</div>
+		</div>
+		
+		<div class="content-row" name="optpart" id="optpart" style="display:block">
 			<h4>What opt out communication methods will you offer? (At least one) </h4>
 			<div id="error-opt-out" style="display: none">
 				<h5 style="color: red;">You must select at least one opt-out method.</h5>
@@ -89,7 +103,10 @@
 				</tr>
 			</table>
 			<br />
-			
+		</div>
+		
+		
+		<div class="content-row">
 			<h4>Please input the revision date that will appear in the privacy form.</h4>
 			<div id="errordate" style="display: none">
 				<h5 style="color: red;">The revision date cannot be empty.</h5>
@@ -304,6 +321,7 @@
 		
 		
 		<!-- Opt Methods -->
+		<div id="optshow">
 		<div class="content-row" id="phoneArea" <% if(exist && n.optByPhone) { %>style="display: block"<% } else {%>style="display: none"<% } %>>
 			<div class="content-row">
 				<table class="table table-striped" style="text-align: left">
@@ -435,7 +453,8 @@
 			</div>
 		</div>
 		<br />
-
+		</div>
+		
 		<!-- Contact Methods -->
 		<div class="content-row">
 			<h4>What customer service contact information will you provide?</h4>
@@ -682,6 +701,26 @@
 		}
 	}
 	
+	function showOpt(ch) {
+		if (ch.checked) {
+			document.getElementById("optpart").style.display = "block";
+			document.getElementById("optshow").style.display = "block";
+		} else {
+			document.getElementById("optpart").style.display = "none";
+			document.getElementById("optshow").style.display = "none";
+		}
+	}
+	function notShowOpt(ch) {
+		if (ch.checked) {
+			document.getElementById("optpart").style.display = "none";
+			document.getElementById("optshow").style.display = "none";
+		} else {
+			document.getElementById("optpart").style.display = "block";
+			document.getElementById("optshow").style.display = "block";
+		}
+	}
+	
+	
 	function showAff(ch) {
         if (!ch.checked) {
             document.getElementById("aboutAff").style.display = "none";
@@ -742,19 +781,24 @@
 
 <script>
 	function validateForm() {
-		var sum = 0;
-		var checkboxes = document.getElementsByName('opt-out');
-		for (var i = 0; i < checkboxes.length; i++) {
-			if (checkboxes[i].checked) {
-				sum++;
+		var isOpt = document.getElementById("optRadioYes");
+		
+		if(isOpt.checked) {
+			var sum = 0;
+			var checkboxes = document.getElementsByName('opt-out');
+			for (var i = 0; i < checkboxes.length; i++) {
+				if (checkboxes[i].checked) {
+					sum++;
+				}
+			}
+			if (sum < 1) {
+				document.getElementById("error-opt-out").style.display = "block";
+				return false;
+			} else {
+				document.getElementById("error-opt-out").style.display = "none";
 			}
 		}
-		if (sum < 1) {
-			document.getElementById("error-opt-out").style.display = "block";
-			return false;
-		} else {
-			document.getElementById("error-opt-out").style.display = "none";
-		}
+		
 		
 	      var date =  document.getElementById("startDate").value;
 	        if(date == null || date == "") {
@@ -765,39 +809,42 @@
 	            document.getElementById("errordate").style.display = "none";
 	        }
 		
-		// validate opt methods detail
-		if(checkboxes[0].checked) {
-			var phonephone = document.getElementById("phonephone").value;
-			if(phonephone == null || phonephone == "") {
-				document.getElementById("errorPhone").style.display = "block";
-				return false;
+	        
+		if(isOpt.checked) {
+			// validate opt methods detail
+			if(checkboxes[0].checked) {
+				var phonephone = document.getElementById("phonephone").value;
+				if(phonephone == null || phonephone == "") {
+					document.getElementById("errorPhone").style.display = "block";
+					return false;
+				}
+				else {
+					document.getElementById("errorPhone").style.display = "none";
+				}
 			}
-			else {
-				document.getElementById("errorPhone").style.display = "none";
+			
+			if(checkboxes[1].checked) {
+				var phonephone = document.getElementById("websitewebsite").value;
+				if(phonephone == null || phonephone == "") {
+					document.getElementById("errorWebsite").style.display = "block";
+					return false;
+				}
+				else {
+					document.getElementById("errorPhone").style.display = "none";
+				}
 			}
-		}
-		
-		if(checkboxes[1].checked) {
-			var phonephone = document.getElementById("websitewebsite").value;
-			if(phonephone == null || phonephone == "") {
-				document.getElementById("errorWebsite").style.display = "block";
-				return false;
-			}
-			else {
-				document.getElementById("errorPhone").style.display = "none";
-			}
-		}
-		
-		if(checkboxes[2].checked) {
-			var address = document.getElementById("address").value;
-			var city = document.getElementById("city").value;
-			var zipcode = document.getElementById("zipcode").value;
-			if(address == null || address == "" || city == null || city == "" || zipcode == null || zipcode == "") {
-				document.getElementById("errorMail").style.display = "block";
-				return false;
-			}
-			else {
-				document.getElementById("errorMail").style.display = "none";
+			
+			if(checkboxes[2].checked) {
+				var address = document.getElementById("address").value;
+				var city = document.getElementById("city").value;
+				var zipcode = document.getElementById("zipcode").value;
+				if(address == null || address == "" || city == null || city == "" || zipcode == null || zipcode == "") {
+					document.getElementById("errorMail").style.display = "block";
+					return false;
+				}
+				else {
+					document.getElementById("errorMail").style.display = "none";
+				}
 			}
 		}
 		
