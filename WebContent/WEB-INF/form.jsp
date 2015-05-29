@@ -14,13 +14,19 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<title>FormGenerator - Team 7 Ionia</title>
-
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/main.css" rel="stylesheet">
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="js/bootstrap.min.js"></script>
+	<style>
+	body{
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	}
+	</style>
 </head>
 
 <c:choose>
@@ -862,9 +868,10 @@
 	}
 </script>
 
-		<div class="footer">
-			<p>Team 7 Ionia</p>
-		</div>
+		<div style="margin: 50px">
+		<br> <br> <br>
+		<p style="color: #00476B; text-align: center">Team 7 Ionia @2015</p>
+	</div>
 	</div>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
@@ -47,6 +47,11 @@
 	margin-top: 100px;
 	margin-bottom: 100px;
 }
+
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
 </style>
 </head>
 <script
@@ -60,37 +65,26 @@
 </script>
 
 <body>
+
 	<div class="container">
 		<div style="margin: 50px">
-			<h1 style="color: #00476B; text-align: center">Online Privacy
+			<h1 style="color: #66A3C2; text-align: center">Online Privacy
 				Form Generator</h1>
 			<hr />
-			<p
-				style="color: #66A3C2; font-size: 120%; text-align: center; letter-spacing: 4px">CONSISTENT,
-				CORRECT AND FREE ONLINE POLICY FORM GENERATOR.</p>
 		</div>
 
 		<div align="center">
-			<table class="buttontable">
-				<tr style="text-align: center">
-					<td style="width: 50%" align="center">
-						<div class="blocks">
-							<a href="form.do" id="blockref">Create New Privacy Form</a> <br />
-							<p style="font-size: 140%">I want to create a new privacy
-								form.</p>
-						</div>
-					</td>
-				</tr>
-			</table>
-		</div>
-
-
-		<div align="center">
+		<h5 style="margin-top: 30px">
+				<a href="form.do" id="blockref"
+					style="color: #00476B; text-align: center">Create New Privacy
+					Form</a>
+			</h5>
 			<h2 style="margin-top: 30px">Or</h2>
-			<br> <br> <br>
-			<h3 style="margin-top: 30px">Have Back Up Forms? Resume From Backup File</h3>
+			
+			<h2 style="margin-top: 30px; color: #00476B">Have Back Up Forms? Resume From
+				Backup File</h2>
 			<h4 style="color: red">${message}</h4>
-			<form action="form.do" method="POST" enctype="multipart/form-data">
+			<form action="upload.do" method="post" enctype="multipart/form-data">
 				<table>
 					<tr>
 						<td>
@@ -108,15 +102,15 @@
 			</form>
 		</div>
 	</div>
+
 	<br>
 	<br>
 	<br>
-	
+
 	<div style="margin: 50px">
-		<br>
-	<br>
-	<br>
+		<br> <br> <br>
 		<p style="color: #00476B; text-align: center">Team 7 Ionia @2015</p>
 	</div>
+
 </body>
 </html>
