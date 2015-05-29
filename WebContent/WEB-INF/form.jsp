@@ -932,15 +932,18 @@
 			}
 		}
 		
-		var financial = document.getElementById("affiliates").value;
-		var nonfinancial = document.getElementById("nonaffiliates").value;
-		var joint = document.getElementById("jointMarketing").value;
-		if(financial == null || financial == "" || nonfinancial == null || nonfinancial == "" || joint == null || joint == "") {
-			document.getElementById("errorAffs").style.display = "block";
-			return false;
-		}
-		else {
-			document.getElementById("errorAffs").style.display = "none";
+		var isAffiliate = document.getElementById("radioAffYes");
+		if(isAffiliate.checked) {
+			var financial = document.getElementById("affiliates").value;
+			var nonfinancial = document.getElementById("nonaffiliates").value;
+			var joint = document.getElementById("jointMarketing").value;
+			if(financial == null || financial == "" || nonfinancial == null || nonfinancial == "" || joint == null || joint == "") {
+				document.getElementById("errorAffs").style.display = "block";
+				return false;
+			}
+			else {
+				document.getElementById("errorAffs").style.display = "none";
+			}
 		}
 	}
 </script>
