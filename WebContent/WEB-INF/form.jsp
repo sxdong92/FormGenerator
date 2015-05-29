@@ -67,7 +67,7 @@
 <div class="row marketing">
 	<form id="form1" action="generateNotice.do" onsubmit="return validateForm()" method="post">
 		<div class="content-row">
-			<h4>What is the name of your institution? *</h4>
+			<h4>What is the name of your institution? </h4>
 			<div id="error" style="display: none">
 				<h5 style="color: red;">The field could not be empty</h5>
 			</div>
@@ -77,7 +77,7 @@
 			</p>
 			<br />
 
-			<h4>What opt out communication methods will you offer? (At least one) *</h4>
+			<h4>What opt out communication methods will you offer? (At least one) </h4>
 			<div id="error-opt-out" style="display: none">
 				<h5 style="color: red;">You must select at least one opt-out method.</h5>
 			</div>
@@ -98,7 +98,7 @@
 				<% if(exist && n.lastRevDate != null && !n.lastRevDate.equals("")) { %> value="<%=n.lastRevDate%>" <% } %>>
 			<br />
 			
-			<h4>Please select Yes if any of the following statements is true: *</h4>
+			<h4>Please select Yes if any of the following statements is true: </h4>
 			<ul>
 				<li>Your organization does not have affiliates</li>
 				<li>Your affiliates(if you have any) do not use personal information in a manner that requires an opt-out</li>
@@ -440,7 +440,7 @@
 		<!-- PAGE TWO -->
 		<div class="content-row">
 			<h4>
-				How do you protect personal information? * 
+				How do you protect personal information?  
 				<a href="http://en.wikipedia.org/wiki/Personal_Information_Protection_and_Electronic_Documents_Act"
 					target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a>
 			</h4>
@@ -471,7 +471,7 @@
 				<div id="error-collect" style="display: none">
 					<h5 style="color: red;">You need to select 6 options including SSN so only need to select 5 in total besides SSN</h5>
 				</div>
-				<h4>How do you collect the personal information?* (Exactly five methods)</h4>
+				<h4>How do you collect the personal information? (Exactly five methods)</h4>
 				<div id="collectWays" onclick="checkBox()">
 					<table>
 						<tr>
@@ -588,7 +588,7 @@
 		<br />
 
 		<h4>
-			What happens when a customer limit sharing for an account he hold <br />jointly with someone else? *
+			What happens when a customer limit sharing for an account he hold <br />jointly with someone else? 
 		</h4>
 		<div class="radio">
 			<label> 
@@ -603,7 +603,7 @@
 		<br />
 
 		<div class="content-row" id="aboutAff">
-			<h4>Please list the affiliates you share with below.*</h4>
+			<h4>Please list the affiliates you share with below.</h4>
 			<div id="errorAffs" style="display: none">
 				<h5 style="color: red;">The field could not be empty</h5>
 			</div>
