@@ -49,7 +49,8 @@ public class GenerateNoticeAction extends Action {
 		
 		for(int i = 1; i <= 6; i++) {
 			notice.isShared[i] = request.getParameter("question" + i).equals("No") ? false : true;
-			notice.isLimited[i] = request.getParameter("question" + i + "b").equals("No") ? false : true;	
+			if (notice.isShared[i])
+				notice.isLimited[i] = request.getParameter("question" + i + "b").equals("No") ? false : true;	
 		}
 		
 		String day = request.getParameter("sharelimitDays");

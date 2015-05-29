@@ -192,33 +192,35 @@ h3 {
                 service providers we use to offer our products and services to
                 you (please see below to limit the ways we contact you)</td>
               <td class="centered-td"><% if(n.isShared[1]) { %>Yes<% } else { %>No<% } %></td>
-              <td class="centered-td"><% if(n.isLimited[1]) { %>Yes<% } else { %>No<% } %></td>
+              <td class="centered-td">
+              <% if(!n.isShared[1]) { %>We do not share<% } else { if(n.isLimited[1]) { %>Yes<% } else { %>No<% }} %>
+              </td>
             </tr>
             <tr>
               <td><strong>For joint marketing with other
                   financial companies</strong></td>
               <td class="centered-td"><% if(n.isShared[2]) { %>Yes<% } else { %>No<% } %></td>
-              <td class="centered-td"><% if(n.isLimited[2]) { %>Yes<% } else { %>No<% } %></td>
+              <td class="centered-td"> <% if(!n.isShared[2]) { %>We do not share<% } else { if(n.isLimited[2]) { %>Yes<% } else { %>No<% }} %></td>
             </tr>
             <tr>
               <td><strong>For our affiliates&rsquo; everyday
                   business purposes </strong>&mdash; Information about your transactions
                 and experiences</td>
               <td class="centered-td"><% if(n.isShared[3]) { %>Yes<% } else { %>No<% } %></td>
-              <td class="centered-td"><% if(n.isLimited[3]) { %>Yes<% } else { %>No<% } %></td>
+              <td class="centered-td"> <% if(!n.isShared[3]) { %>We do not share<% } else { if(n.isLimited[3]) { %>Yes<% } else { %>No<% }} %></td>
             </tr>
             <tr>
               <td><strong>For our affiliates&rsquo; everyday
                   business purposes </strong>&mdash; Information about your
                 creditworthiness</td>
               <td class="centered-td"><% if(n.isShared[4]) { %>Yes<% } else { %>No<% } %></td>
-              <td class="centered-td"><% if(n.isLimited[4]) { %>Yes<% } else { %>No<% } %></td>
+              <td class="centered-td"> <% if(!n.isShared[4]) { %>We do not share<% } else { if(n.isLimited[4]) { %>Yes<% } else { %>No<% }} %></td>
             </tr>
             <tr>
               <td><strong>For nonaffiliates to market to you </strong>&mdash;
                 for all credit card accounts</td>
               <td class="centered-td"><% if(n.isShared[5]) { %>Yes<% } else { %>No<% } %></td>
-              <td class="centered-td"><% if(n.isLimited[5]) { %>Yes<% } else { %>No<% } %></td>
+              <td class="centered-td"> <% if(!n.isShared[5]) { %>We do not share<% } else { if(n.isLimited[5]) { %>Yes<% } else { %>No<% }} %></td>
             </tr>
             <tr>
               <td><strong>For nonaffiliates to market to you </strong>&mdash;
@@ -226,7 +228,7 @@ h3 {
                 (e.g., debit card co-branded with a baseball team)
                 &ldquo;Sponsored Accounts&rdquo;</td>
               <td class="centered-td"><% if(n.isShared[6]) { %>Yes<% } else { %>No<% } %></td>
-              <td class="centered-td"><% if(n.isLimited[6]) { %>Yes<% } else { %>No<% } %></td>
+              <td class="centered-td"> <% if(!n.isShared[6]) { %>We do not share<% } else { if(n.isLimited[6]) { %>Yes<% } else { %>No<% }} %></td>
             </tr>
           </tbody>
         </table>

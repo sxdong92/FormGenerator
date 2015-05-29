@@ -84,7 +84,7 @@ h1, h2, h3, h4, h5, h6 {
 			<h2 style="margin-top: 30px; color: #00476B">Have Back Up Forms? Resume From
 				Backup File</h2>
 			<h4 style="color: red">${message}</h4>
-			<form action="upload.do" method="post" enctype="multipart/form-data">
+			<form action="form.do" method="post" enctype="multipart/form-data">
 				<table>
 					<tr>
 						<td>
