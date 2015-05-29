@@ -172,7 +172,7 @@
 				<thead>
 					<tr>
 						<th scope="col">Information</th>
-						<th scope="col">Does ${companyName} share?</th>
+						<th scope="col">Do you share?</th>
 						<th scope="col">Can you limit this sharing?</th>
 					</tr>
 				</thead>
